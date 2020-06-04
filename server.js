@@ -8,10 +8,10 @@ const { TOKEN, PREFIX } = require("./config.json")
 client.on("ready", () => {
   console.log('Bot Başarılı Bir Şekilde Çalıştı');
   var oyun = [
-        "🏅Pink Code #YÜKSELİŞ"
+        ""
         
   ];
-////Pink Code Share <3
+////
     setInterval(function() {
 
         var random = Math.floor(Math.random()*(oyun.length-0+1)+0);
@@ -19,11 +19,11 @@ client.on("ready", () => {
         client.user.setActivity(oyun[random], "https://www.twitch.com/pinkcode" );
         }, 2 * 2500);
 })
-////Pink Code Share <3
+////
 client.on("warn", info => console.log(info));
 
 client.on("error", console.error)
-////Pink Code Share <3
+////
 //DEFINIING
 client.commands = new discord.Collection()
 client.prefix = PREFIX
@@ -51,7 +51,7 @@ client.on("message", message => {
     if(!client.commands.has(command)) {
       return;
     } 
-    ////Pink Code Share <3
+  
   try  { 
       client.commands.get(command).execute(client, message, args)
     } catch (err) { 
@@ -60,7 +60,7 @@ client.on("message", message => {
     }
     
   }
-  ////Pink Code Share <3
+
   
 });
 
@@ -69,4 +69,3 @@ client.on("message", message => {
 
 //DONT DO ANYTHING WITH THIS TOKEN lol
 client.login(TOKEN)
-////Pink Code Share <3
