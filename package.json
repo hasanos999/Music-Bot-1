@@ -5,9 +5,9 @@
   "name": "LozBey",
   "version": "0.0.1",
   "description": "Müzik Botu.",
-  "main": "server.js",
+  "main": "bot.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node bot.js"
   },
   "dependencies": {
     "express": "^4.17.1",

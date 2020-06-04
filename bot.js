@@ -3,12 +3,12 @@ const client = new discord.Client({ disableEveryone: true, disabledEvents: ["TYP
 const { readdirSync } = require("fs");
 const { join } = require("path");
 const { TOKEN, PREFIX } = require("./config.json")
-////Pink Code Share <3
+////
 
 client.on("ready", () => {
   console.log('Bot Başarılı Bir Şekilde Çalıştı');
   var oyun = [
-        ""
+        "Oyun craft"
         
   ];
 ////
@@ -31,7 +31,7 @@ client.queue = new Map();
 
 
 //LETS LOAD ALL FILES
-const cmdFiles = readdirSync(join(__dirname, "komutlar")).filter(file => file.endsWith(".js"))
+const cmdFiles = readdirSync(join(__dirname, "commands")).filter(file => file.endsWith(".js"))
 for (const file of cmdFiles) {
   const command = require(join(__dirname, "komutlar", file))
   client.commands.set(command.name, command)
@@ -65,7 +65,4 @@ client.on("message", message => {
 });
 
 
-
-
-//DONT DO ANYTHING WITH THIS TOKEN lol
 client.login(TOKEN)
