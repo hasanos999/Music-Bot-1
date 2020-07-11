@@ -1,37 +1,46 @@
 const ytdlDiscord = require("ytdl-core-discord");
+const scdl = require("soundcloud-downloader");
+const { canModifyQueue } = require("../util/EvobotUtil");
 
 module.exports = {
   async play(song, message) {
+    const { PRUNING, SOUNDCLOUD_CLIENT_ID } = require("../config.json");
     const queue = message.client.queue.get(message.guild.id);
 
     if (!song) {
       queue.channel.leave();
       message.client.queue.delete(message.guild.id);
-      return queue.textChannel.send({embed: {"description": `<a:carp:715013539676291085>  **🚫 Müzik sırası sona erdi.**  <a:carp:715013539676291085> `, "color": "#ff2050"}}).catch(console.error);
-
-
+      return queue.textChannel.send("🚫 Music queue ended.").catch(console.error);
     }
 
+    let stream = null;
+
     try {
-      var stream = await ytdlDiscord(song.url, { highWaterMark: 1 << 25 });
+      if (song.url.includes("youtube.com")) {
+        stream = await ytdlDiscord(song.url, { highWaterMark: 1 << 25 });
+      } else if (song.url.includes("soundcloud.com") && SOUNDCLOUD_CLIENT_ID) {
+        const info = await scdl.getInfo(song.url, SOUNDCLOUD_CLIENT_ID);
+        const opus = scdl.filterMedia(info.media.transcodings, { format: scdl.FORMATS.OPUS });
+        stream = await scdl.downloadFromURL(opus[0].url, SOUNDCLOUD_CLIENT_ID);
+      }
     } catch (error) {
       if (queue) {
         queue.songs.shift();
         module.exports.play(queue.songs[0], message);
       }
 
-      if (error.message.includes("copyright")) {
-        return message.channel
-          .send("⛔ A video could not be played due to copyright protection ⛔")
-          .catch(console.error);
-      } else {
-        console.error(error);
-      }
+      console.error(error);
+      return message.channel.send(`Error: ${error.message ? error.message : error}`);
     }
 
+    queue.connection.on("disconnect", () => message.client.queue.delete(message.guild.id));
+
+    const type = song.url.includes("youtube.com") ? "opus" : "ogg/opus";
     const dispatcher = queue.connection
-      .play(stream, { type: "opus" })
+      .play(stream, { type: type })
       .on("finish", () => {
+        if (collector && !collector.ended) collector.stop();
+
         if (queue.loop) {
           // if loop is on, push the song back at the end of the queue
           // so it can repeat endlessly
@@ -44,70 +53,68 @@ module.exports = {
           module.exports.play(queue.songs[0], message);
         }
       })
-      .on("error", err => {
+      .on("error", (err) => {
         console.error(err);
         queue.songs.shift();
         module.exports.play(queue.songs[0], message);
       });
-    dispatcher.setVolumeLogarithmic(queue.volume / 50);
-    const serverQueue = message.client.queue.get(message.guild.id);
-    try {
-      var playingMessage = await queue.textChannel.send({embed: {"description": `**R3LEASE | 🎧 Müzik Başladı 🎧 \nBaşlık\n [${song.title}](${song.url}) \n Sarkıyı Açan \n ${message.author}\nSes Seviyesi \n${serverQueue.volume}%**`, "color": "#ff2050"}});
-     await playingMessage.react;
-     await playingMessage.react("🎵");
+    dispatcher.setVolumeLogarithmic(queue.volume / 100);
 
+    try {
+      var playingMessage = await queue.textChannel.send(`🎶 Started playing: **${song.title}** ${song.url}`);
+      await playingMessage.react("⏭");
+      await playingMessage.react("⏯");
+      await playingMessage.react("🔁");
+      await playingMessage.react("⏹");
     } catch (error) {
       console.error(error);
     }
 
     const filter = (reaction, user) => user.id !== message.client.user.id;
-    const collector = playingMessage.createReactionCollector(filter, {
+    var collector = playingMessage.createReactionCollector(filter, {
       time: song.duration > 0 ? song.duration * 1000 : 600000
     });
 
     collector.on("collect", (reaction, user) => {
-      // Stop if there is no queue on the server
       if (!queue) return;
+      const member = message.guild.member(user);
 
       switch (reaction.emoji.name) {
-        case "":
-          queue.connection.dispatcher.end();
-          queue.textChannel.send({embed: {"description": `  **⏩ Şarkıyı atladı **  <a:b_yes:714437257385213994>  [${message.author}]"`, "color": "#ff2050"}}).catch(console.error);
-
-
-
-          collector.volume();
-          break;
-
-        case "volume":
-          if (!queue.playing) break;
-          queue.playing = false;
-          queue.connection.dispatcher.pause();
-          queue.textChannel.send({embed: {"description": `  **⏸ Müziği duraklattı.**  <a:b_yes:714437257385213994>  [${message.author}]"`, "color": "#ff2050"}}).catch(console.error);
-
-          reaction.users.remove(user);
-          break;
-
-        case "":
-          if (queue.playing) break;
+        case "⏭":
           queue.playing = true;
-          queue.connection.dispatcher.resume();
-          queue.textChannel.send({embed: {"description": `  **▶ Müziğe devam etti!**  <a:b_yes:714437257385213994>  [${message.author}]"`, "color": "#ff2050"}}).catch(console.error);
-
-          reaction.users.remove(user);
+          reaction.users.remove(user).catch(console.error);
+          if (!canModifyQueue(member)) return;
+          queue.connection.dispatcher.end();
+          queue.textChannel.send(`${user} ⏩ skipped the song`).catch(console.error);
+          collector.stop();
           break;
 
-        case "":
+        case "⏯":
+          reaction.users.remove(user).catch(console.error);
+          if (!canModifyQueue(member)) return;
+          if (queue.playing) {
+            queue.playing = !queue.playing;
+            queue.connection.dispatcher.pause(true);
+            queue.textChannel.send(`${user} ⏸ paused the music.`).catch(console.error);
+          } else {
+            queue.playing = !queue.playing;
+            queue.connection.dispatcher.resume();
+            queue.textChannel.send(`${user} ▶ resumed the music!`).catch(console.error);
+          }
+          break;
+
+        case "🔁":
+          reaction.users.remove(user).catch(console.error);
+          if (!canModifyQueue(member)) return;
           queue.loop = !queue.loop;
-          queue.textChannel.send({embed: {"description": `Döngü şimdi ${queue.loop ? "<a:b_yes:714437257385213994>" : "<a:carp:715013539676291085>"} `, "color": "#ff2050"}}).catch(console.error);
-
-
-          reaction.users.remove(user);
+          queue.textChannel.send(`Loop is now ${queue.loop ? "**on**" : "**off**"}`).catch(console.error);
           break;
 
-        case "":
+        case "⏹":
+          reaction.users.remove(user).catch(console.error);
+          if (!canModifyQueue(member)) return;
           queue.songs = [];
-          queue.textChannel.send({embed: {"description": `  **⏹ Müziği durdurdu!**  <a:b_yes:714437257385213994>  [${message.author}]"`, "color": "#ff2050"}}).catch(console.error);
+          queue.textChannel.send(`${user} ⏹ stopped the music!`).catch(console.error);
           try {
             queue.connection.dispatcher.end();
           } catch (error) {
@@ -118,12 +125,16 @@ module.exports = {
           break;
 
         default:
+          reaction.users.remove(user).catch(console.error);
           break;
       }
     });
 
     collector.on("end", () => {
-      playingMessage.reactions.removeAll();
+      playingMessage.reactions.removeAll().catch(console.error);
+      if (PRUNING && playingMessage && !playingMessage.deleted) {
+        playingMessage.delete({ timeout: 3000 }).catch(console.error);
+      }
     });
   }
 };
