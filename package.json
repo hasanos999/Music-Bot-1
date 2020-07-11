@@ -2,7 +2,7 @@
   "name": "evobot",
   "version": "0.4.0",
   "description": "Discord music bot built with discord.js",
-  "main": "bot.js",
+  "main": "shard.js",
   "author": "@R3LEASE | Oyun Craft#7587 ",
   "private": true,
   "dependencies": {
@@ -14,6 +14,6 @@
     "express": "^4.17.1"
   },
   "scripts": {
-    "start": "node bot.js"
+    "start": "node shard.js"
   }
 }
