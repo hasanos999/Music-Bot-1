@@ -2,7 +2,7 @@
   "name": "R3LEASE",
   "version": "0.6.2",
   "description": "Discord music bot built with discord.js",
-  "main": "index.js",
+  "main": "shard.js",
   "private": true,
   "engines": {
     "node": ">=12.0.0"
@@ -11,13 +11,12 @@
     "@discordjs/opus": "^0.3.2",
     "discord.js": "^12.0.1",
     "ffmpeg-static": "^4.2.3",
-    "lyrics-finder": "^21.0.5",
     "simple-youtube-api": "^5.1.1",
     "soundcloud-downloader": "0.0.9",
     "ytdl-core": "^3.1.0",
     "ytdl-core-discord": "^1.2.1"
   },
   "scripts": {
-    "start": "node index.js"
+    "start": "node shard.js"
   }
 }
