@@ -10,7 +10,7 @@ module.exports = {
     if (!song) {
       queue.channel.leave();
       message.client.queue.delete(message.guild.id);
-      return queue.textChannel.send("🚫 Music queue ended.").catch(console.error);
+      return queue.textChannel.send({embed: {"description": `**🚫 Dinledğiniz Şarkı Bitti.**`, "color": "BLUE"}});
     }
 
     let stream = null;
@@ -83,7 +83,7 @@ module.exports = {
           reaction.users.remove(user).catch(console.error);
           if (!canModifyQueue(member)) return;
           queue.connection.dispatcher.end();
-          queue.textChannel.send(`${user} ⏩ Dinledğiniz Şarkıyı Geçtim`).catch(console.error);
+          queue.textChannel.send({embed: {"description": `**${user} ⏩ Dinledğiniz Şarkıyı Geçtim**`, "color": "BLUE"}});
           collector.stop();
           break;
 
@@ -93,11 +93,11 @@ module.exports = {
           if (queue.playing) {
             queue.playing = !queue.playing;
             queue.connection.dispatcher.pause(true);
-            queue.textChannel.send(`${user} ⏸ Dinledğiniz Şarkıyı Duraklattım.`).catch(console.error);
+            queue.textChannel.send({embed: {"description": `**${user} ⏸ Dinledğiniz Şarkıyı Duraklattım.**`, "color": "BLUE"}}); 
           } else {
             queue.playing = !queue.playing;
             queue.connection.dispatcher.resume();
-            queue.textChannel.send(`${user} ▶ Duraklattığınız Şarkıyı Açtım!`).catch(console.error);
+            queue.textChannel.send({embed: {"description": `**${user} ▶ Duraklattığınız Şarkıyı Açtım.**`, "color": "BLUE"}}); 
           }
           break;
 
@@ -105,14 +105,14 @@ module.exports = {
           reaction.users.remove(user).catch(console.error);
           if (!canModifyQueue(member)) return;
           queue.loop = !queue.loop;
-          queue.textChannel.send(`Döngü Sistemi ${queue.loop ? "**A**" : "**off**"}`).catch(console.error);
+          queue.textChannel.send({embed: {"description": `**Döngü Sistemi ${queue.loop ? "**Açık**" : "**Kapalı**"}**`, "color": "BLUE"}}); 
           break;
 
         case "⏹":
           reaction.users.remove(user).catch(console.error);
           if (!canModifyQueue(member)) return;
           queue.songs = [];
-          queue.textChannel.send(`${user} ⏹ Dinledğiniz Şarkıyı Kapattım!`).catch(console.error);
+          queue.textChannel.send({embed: {"description": `**${user} ⏹ Dinledğiniz Şarkıyı Kapattım.**`, "color": "BLUE"}}); 
           try {
             queue.connection.dispatcher.end();
           } catch (error) {
