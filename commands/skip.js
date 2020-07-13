@@ -15,3 +15,4 @@ module.exports = {
     queue.textChannel.send(`${message.author} ⏭ skipped the song`).catch(console.error);
   }
 };
+//Oyun Craft Abone Ol R3lease Kalp

@@ -2,10 +2,11 @@ const { MessageEmbed } = require("discord.js");
 
 module.exports = {
   name: "np",
-  description: "Show now playing song",
+    aliases: ["nowplaying","çalan"],
+  description: "O Anki Çalan Şarkıyı Gösterir",
   execute(message) {
     const queue = message.client.queue.get(message.guild.id);
-    if (!queue) return message.reply("There is nothing playing.").catch(console.error);
+    if (!queue) return message.channel.send({embed: {"description": `**${message.author} Oynatılan Bir Şarkı Bulamadım.**`, "color": "BLUE"}}); 
     const song = queue.songs[0];
 
     let nowPlaying = new MessageEmbed()
@@ -20,3 +21,5 @@ module.exports = {
     return message.channel.send(nowPlaying);
   }
 };
+//Oyun Craft Abone Ol R3lease Kalp
+

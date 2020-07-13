@@ -7,7 +7,7 @@ module.exports = {
   execute(message, args) {
     const queue = message.client.queue.get(message.guild.id);
 
-    if (!queue) return message.reply("There is nothing playing.").catch(console.error);
+    if (!queue) return message.channel.send({embed: {"description": `**${message.author} Oynatılan Bir Şarkı Bulamadım.**`, "color": "BLUE"}}); 
     if (!canModifyQueue(message.member))
       return message.reply("You need to join a voice channel first!").catch(console.error);
 
@@ -22,3 +22,4 @@ module.exports = {
     return queue.textChannel.send(`Volume set to: **${args[0]}%**`).catch(console.error);
   }
 };
+//Oyun Craft Abone Ol R3lease Kalp

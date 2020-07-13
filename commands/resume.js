@@ -6,7 +6,7 @@ module.exports = {
   description: "Resume currently playing music",
   execute(message) {
     const queue = message.client.queue.get(message.guild.id);
-    if (!queue) return message.reply("There is nothing playing.").catch(console.error);
+    if (!queue) return message.channel.send({embed: {"description": `**${message.author} Oynatılan Bir Şarkı Bulamadım.**`, "color": "BLUE"}}); 
     if (!canModifyQueue(message.member)) return;
 
     if (!queue.playing) {
@@ -18,3 +18,4 @@ module.exports = {
     return message.reply("The queue is not paused.").catch(console.error);
   }
 };
+//Oyun Craft Abone Ol R3lease Kalp

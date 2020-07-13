@@ -72,3 +72,4 @@ client.on("message", async (message) => {
     }
   }
 });
+//Oyun Craft Abone Ol R3lease Kalp

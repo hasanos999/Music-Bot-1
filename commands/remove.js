@@ -2,6 +2,7 @@ const { canModifyQueue } = require("../util/EvobotUtil");
 
 module.exports = {
   name: "remove",
+    aliases: ["döngü","tekrar"],
   description: "Remove song from the queue",
   execute(message, args) {
     const queue = message.client.queue.get(message.guild.id);
@@ -15,3 +16,4 @@ module.exports = {
     queue.textChannel.send(`${message.author} ❌ removed **${song[0].title}** from the queue.`);
   }
 };
+//Oyun Craft Abone Ol R3lease Kalp
