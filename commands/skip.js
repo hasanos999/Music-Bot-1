@@ -7,12 +7,12 @@ module.exports = {
   execute(message) {
     const queue = message.client.queue.get(message.guild.id);
     if (!queue)
-      return message.reply("There is nothing playing that I could skip for you.").catch(console.error);
+      return message.channel.send({embed: {"description": `**${message.author} Oynatılan Bir Şarkı Bulamadım.**`, "color": "BLUE"}});
     if (!canModifyQueue(message.member)) return;
 
     queue.playing = true;
     queue.connection.dispatcher.end();
-    queue.textChannel.send(`${message.author} ⏭ skipped the song`).catch(console.error);
+    queue.textChannel.send({embed: {"description": `**${message.author} ⏩ Dinledğiniz Şarkıyı Geçtim**`, "color": "BLUE"}});
   }
 };
 //Oyun Craft Abone Ol R3lease Kalp

@@ -24,7 +24,7 @@ module.exports = {
     if (!permissions.has("CONNECT"))
       return message.channel.send({embed: {"description": `**Odaya Katılmıyorum İzinim Yok Lütfen İzinleri Değiştirin.**`, "color": "BLUE"}}); 
     if (!permissions.has("SPEAK"))
-      return message.reply("Odaya Katıldım Fakat Konuşma İznim Yok Lütfen İzinleri Değiştirin.");
+      return message.channel.send({embed: {"description": `**Odaya Katıldım Fakat Konuşma İznim Yok Lütfen İzinleri Değiştirin.**`, "color": "BLUE"}}); 
 
     const search = args.join(" ");
     const videoPattern = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/gi;

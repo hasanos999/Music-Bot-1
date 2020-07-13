@@ -12,10 +12,10 @@ module.exports = {
     if (!queue.playing) {
       queue.playing = true;
       queue.connection.dispatcher.resume();
-      return queue.textChannel.send(`${message.author} ▶ resumed the music!`).catch(console.error);
+      return queue.textChannel.send({embed: {"description": `**${message.author} ▶ Duraklattığınız Şarkıyı Açtım.**`, "color": "BLUE"}}); 
     }
 
-    return message.reply("The queue is not paused.").catch(console.error);
+    return message.channel.send({embed: {"description": `**${message.author} Duraklattılan Şarkı Bulunamadı.**`, "color": "BLUE"}}); 
   }
 };
 //Oyun Craft Abone Ol R3lease Kalp

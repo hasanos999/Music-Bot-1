@@ -25,7 +25,7 @@ module.exports = {
     if (!permissions.has("CONNECT"))
       return message.channel.send({embed: {"description": `**Odaya Katılmıyorum İzinim Yok Lütfen İzinleri Değiştirin.**`, "color": "BLUE"}}); 
     if (!permissions.has("SPEAK"))
-      return message.reply("I cannot speak in this voice channel, make sure I have the proper permissions!");
+      return message.channel.send({embed: {"description": `**Odaya Katıldım Fakat Konuşma İznim Yok Lütfen İzinleri Değiştirin.**`, "color": "BLUE"}}); 
 
     const search = args.join(" ");
     const pattern = /^.*(youtu.be\/|list=)([^#\&\?]*).*/gi;
@@ -38,7 +38,7 @@ module.exports = {
       connection: null,
       songs: [],
       loop: false,
-      volume: 100,
+      volume: 75,
       playing: true
     };
 
