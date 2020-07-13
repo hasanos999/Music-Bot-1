@@ -9,25 +9,25 @@ module.exports = {
   name: "play",
   cooldown: 3,
   aliases: ["çal"],
-  description: "Plays audio from YouTube or Soundcloud",
+  description: "Şarkı Dinlemek İçin YouTube Veya Soundcloud Kullanın",
   async execute(message, args) {
     const { channel } = message.member.voice;
 
     const serverQueue = message.client.queue.get(message.guild.id);
-    if (!channel) return message.reply("You need to join a voice channel first!").catch(console.error);
+    if (!channel) return message.reply("Öncelikle Bir Sesli Kanala Katılmanız Gerekiyor.").catch(console.error);
     if (serverQueue && channel !== message.guild.me.voice.channel)
       return message.reply(`You must be in the same channel as ${message.client.user}`).catch(console.error);
 
     if (!args.length)
       return message
-        .reply(`Usage: ${message.client.prefix}play <YouTube URL | Video Name | Soundcloud URL>`)
+        .reply(`Kullanım Şekli: ${message.client.prefix}play <Video Link  | Video İsmi | Soundcloud Linki>`)
         .catch(console.error);
 
     const permissions = channel.permissionsFor(message.client.user);
     if (!permissions.has("CONNECT"))
-      return message.reply("Cannot connect to voice channel, missing permissions");
+      return message.reply("Odaya Katılmıyorum İzinim Yok Lütfen İzinleri Değiştirin.");
     if (!permissions.has("SPEAK"))
-      return message.reply("I cannot speak in this voice channel, make sure I have the proper permissions!");
+      return message.reply("Odaya Katıldım Fakat Konuşma İznim Yok Lütfen İzinleri Değiştirin.");
 
     const search = args.join(" ");
     const videoPattern = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/gi;
@@ -47,7 +47,7 @@ module.exports = {
       connection: null,
       songs: [],
       loop: false,
-      volume: 100,
+      volume: 55,
       playing: true
     };
 
@@ -92,14 +92,14 @@ module.exports = {
         };
       } catch (error) {
         console.error(error);
-        return message.reply("No video was found with a matching title").catch(console.error);
+        return message.reply("Aradım Fakat Sonuç Çıkmadı Lütfen Videonun Adını Tam Şekilde Yazınız.").catch(console.error);
       }
     }
 
     if (serverQueue) {
       serverQueue.songs.push(song);
       return serverQueue.textChannel
-        .send(`✅ **${song.title}** has been added to the queue by ${message.author}`)
+        .send(`✅ **${song.title}** Adlı Videoyu Kuyruğa ${message.author} Tarafından Eklendi.`)
         .catch(console.error);
     }
 
@@ -114,7 +114,7 @@ module.exports = {
       console.error(error);
       message.client.queue.delete(message.guild.id);
       await channel.leave();
-      return message.channel.send(`Could not join the channel: ${error}`).catch(console.error);
+      return message.channel.send(`Sesli Odaya Katılamadım Hata = ${error}`).catch(console.error);
     }
   }
 };
