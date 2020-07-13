@@ -3,7 +3,7 @@ const { canModifyQueue } = require("../util/EvobotUtil");
 module.exports = {
   name: "pause",
     aliases: ["duraklat"],
-  description: "Pause the currently playing music",
+  description: "Çalmakta Olan Müziği Duraklatır",
   execute(message) {
     const queue = message.client.queue.get(message.guild.id);
     if (!queue) return message.channel.send({embed: {"description": `**${message.author} Oynatılan Bir Şarkı Bulamadım.**`, "color": "BLUE"}}); 
@@ -12,7 +12,7 @@ module.exports = {
     if (queue.playing) {
       queue.playing = false;
       queue.connection.dispatcher.pause(true);
-      return queue.textChannel.send(`${message.author} ⏸ paused the music.`).catch(console.error);
+      return queue.textChannel.send({embed: {"description": `**${message.author} ⏸ Dinledğiniz Şarkıyı Duraklattım.**`, "color": "BLUE"}}); 
     }
   }
 };

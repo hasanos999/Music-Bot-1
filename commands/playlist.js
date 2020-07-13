@@ -7,8 +7,8 @@ const youtube = new YouTubeAPI(YOUTUBE_API_KEY);
 module.exports = {
   name: "playlist",
   cooldown: 3,
-  aliases: ["pl"],
-  description: "Play a playlist from youtube",
+  aliases: ["pl","oynatma-listesi","oynatmalistesi"],
+  description: "Youtube'dan Bir Oynatma Listesi Oynatın",
   async execute(message, args) {
     const { PRUNING } = require("../config.json");
     const { channel } = message.member.voice;

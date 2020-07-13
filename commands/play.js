@@ -8,7 +8,7 @@ const scdl = require("soundcloud-downloader");
 module.exports = {
   name: "play",
   cooldown: 3,
-  aliases: ["çal"],
+  aliases: ["çal","p"],
   description: "Şarkı Dinlemek İçin YouTube Veya Soundcloud Kullanın",
   async execute(message, args) {
     const { channel } = message.member.voice;
@@ -19,10 +19,7 @@ module.exports = {
       return message.reply(`You must be in the same channel as ${message.client.user}`).catch(console.error);
 
     if (!args.length)
-      return message
-        .reply(`Kullanım Şekli: ${message.client.prefix}play <Video Link  | Video İsmi | Soundcloud Linki>`)
-        .catch(console.error);
-
+      return message.channel.send({embed: {"description": `**Kullanım Şekli: ${message.client.prefix}play <Video Link  | Video İsmi | Soundcloud Linki>.**`, "color": "BLUE"}}); 
     const permissions = channel.permissionsFor(message.client.user);
     if (!permissions.has("CONNECT"))
       return message.reply("Odaya Katılmıyorum İzinim Yok Lütfen İzinleri Değiştirin.");
@@ -36,7 +33,6 @@ module.exports = {
     const url = args[0];
     const urlValid = videoPattern.test(args[0]);
 
-    // Start the playlist if playlist url was provided
     if (!videoPattern.test(args[0]) && playlistPattern.test(args[0])) {
       return message.client.commands.get("playlist").execute(message, args);
     }
@@ -47,7 +43,7 @@ module.exports = {
       connection: null,
       songs: [],
       loop: false,
-      volume: 55,
+      volume: 75,
       playing: true
     };
 
@@ -67,7 +63,7 @@ module.exports = {
         return message.reply(error.message).catch(console.error);
       }
     } else if (scRegex.test(url)) {
-      // It is a valid Soundcloud URL
+   
       if (!SOUNDCLOUD_CLIENT_ID)
         return message.reply("Missing Soundcloud Client ID in config").catch(console.error);
       try {
@@ -92,15 +88,13 @@ module.exports = {
         };
       } catch (error) {
         console.error(error);
-        return message.reply("Aradım Fakat Sonuç Çıkmadı Lütfen Videonun Adını Tam Şekilde Yazınız.").catch(console.error);
+        return message.channel.send({embed: {"description": `**${message.author} Aradım Fakat Sonuç Çıkmadı Lütfen Videonun Adını Tam Şekilde Yazınız..**`, "color": "BLUE"}}); 
       }
     }
 
     if (serverQueue) {
       serverQueue.songs.push(song);
-      return serverQueue.textChannel
-        .send(`✅ **${song.title}** Adlı Videoyu Kuyruğa ${message.author} Tarafından Eklendi.`)
-        .catch(console.error);
+      return serverQueue.textChannel({embed: {"description": `**✅ **${song.title}** Adlı Videoyu Kuyruğa ${message.author} Tarafından Eklendi..**`, "color": "BLUE"}});
     }
 
     queueConstruct.songs.push(song);
@@ -114,7 +108,7 @@ module.exports = {
       console.error(error);
       message.client.queue.delete(message.guild.id);
       await channel.leave();
-      return message.channel.send(`Sesli Odaya Katılamadım Hata = ${error}`).catch(console.error);
+      return message.channel.send({embed: {"description": `**${message.author} Sesli Odaya Katılamadım Hata = ${error}.**`, "color": "BLUE"}}); 
     }
   }
 };
