@@ -2,8 +2,6 @@ dependencies:
   '@discordjs/opus': 0.3.2
   discord.js: 12.2.0
   express: 4.17.1
-  http: 0.0.0
-  http-errors: 1.8.0
   simple-youtube-api: 5.2.1
   soundcloud-downloader: 0.1.1
   ytdl-core: 3.1.2
@@ -449,22 +447,6 @@ packages:
       node: '>= 0.6'
     resolution:
       integrity: sha512-ZTTX0MWrsQ2ZAhA1cejAwDLycFsd7I7nVtnkT3Ol0aqodaKW+0CTZDQ1uBv5whptCnc8e8HeRRJxRs0kmm/Qfw==
-  /http-errors/1.8.0:
-    dependencies:
-      depd: 1.1.2
-      inherits: 2.0.4
-      setprototypeof: 1.2.0
-      statuses: 1.5.0
-      toidentifier: 1.0.0
-    dev: false
-    engines:
-      node: '>= 0.6'
-    resolution:
-      integrity: sha512-4I8r0C5JDhT5VkvI47QktDW75rNlGVsUf/8hzjCC/wkWI/jdTRmBb9aI7erSG82r1bjKY3F6k28WnsVxB1C73A==
-  /http/0.0.0:
-    dev: false
-    resolution:
-      integrity: sha1-huYybSnF0Dnen6xYSkVon5KfT3I=
   /iconv-lite/0.4.24:
     dependencies:
       safer-buffer: 2.1.2
@@ -900,10 +882,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-JvdAWfbXeIGaZ9cILp38HntZSFSo3mWg6xGcJJsd+d4aRMOqauag1C63dJfDw7OaMYwEbHMOxEZ1lqVRYP2OAw==
-  /setprototypeof/1.2.0:
-    dev: false
-    resolution:
-      integrity: sha512-E5LDX7Wrp85Kil5bhZv46j8jOeboKq5JMmYM3gVGdGH8xFpPWXUMsNrlODCrkoxMEeNi/XZIwuRvY4XNwYMJpw==
   /signal-exit/3.0.3:
     dev: false
     resolution:
@@ -1091,8 +1069,6 @@ specifiers:
   '@discordjs/opus': ^0.3.2
   discord.js: ^12.0.1
   express: ^4.17.1
-  http: ^0.0.0
-  http-errors: ^1.8.0
   simple-youtube-api: ^5.1.1
   soundcloud-downloader: ^0.1.1
   ytdl-core: ^3.1.0
