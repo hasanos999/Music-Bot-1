@@ -1,9 +1,9 @@
 const { ShardingManager } = require ('discord.js')
-const ayarlar = require ('./ayarlar.json')
+const config = require ('./config.json')
 const Discord = require ('discord.js')
-const shards = new ShardingManager ('./bot.js', {//BURASI ANA DOSYANIZ DEGİİŞİR
+const shards = new ShardingManager ('./server.js', {//BURASI ANA DOSYANIZ DEGİİŞİR
 
-token : ayarlar.token,
+token : config.TOKEN,
 totalShards : 1 //benim tercihim
 
 });
