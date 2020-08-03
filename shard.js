@@ -9,9 +9,9 @@ totalShards : 1 //benim tercihim
 
     const webhook = new Discord.WebhookClient("737306125153861762","WZM98KehW-COwsti5rLBU_idj5EnDNEkoEGyNan-4h21A66Y3ULyD00JxWLrrf0IDftL")
 shards.on('launch', shard => {
-    webhook.send(`🟡 [Başlatılıyor] Otorol Proje - <@653957385123266560> \n${shard.id +1} IDli Başlatılıyor Lütfen Bekleyin.`)
+    webhook.send(`🟡 [R3LEASE Başlatılıyor] Otorol Proje - <@653957385123266560> \n${shard.id +1} IDli Başlatılıyor Lütfen Bekleyin.`)
     setTimeout(() => {
-  webhook.send(`🟢  [Başlatıldı] Otorol Proje - <@653957385123266560> \n${shard.id +1} IDli Başlatıldı ve Kullanıma Hazır.`)
+  webhook.send(`🟢  [R3LEASE Başlatıldı] Otorol Proje - <@653957385123266560> \n${shard.id +1} IDli Başlatıldı ve Kullanıma Hazır.`)
   }, 3000)
 })
 
