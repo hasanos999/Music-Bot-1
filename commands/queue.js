@@ -1,8 +1,8 @@
 const { MessageEmbed, splitMessage, escapeMarkdown } = require("discord.js");
 
 module.exports = {
-  name: "queue",
-  aliases: ["q",'kuyruk','liste'],
+  name: "kuyruk",
+  aliases: ["q",'queue','liste'],
   description: "Show the music queue and now playing.",
   execute(message) {
     const queue = message.client.queue.get(message.guild.id);

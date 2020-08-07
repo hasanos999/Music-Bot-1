@@ -2,8 +2,8 @@ const { canModifyQueue } = require("../util/EvobotUtil");
 
 
 module.exports = {
-  name: "stop",
-  aliases: ["kapat","durdur"],
+  name: "durdur",
+  aliases: ["kapat","stop"],
   description: "Stops the music",
   execute(message) {
     const queue = message.client.queue.get(message.guild.id);

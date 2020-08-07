@@ -6,9 +6,9 @@ const youtube = new YouTubeAPI(YOUTUBE_API_KEY);
 const scdl = require("soundcloud-downloader");
 
 module.exports = {
-  name: "play",
+  name: "çal",
   cooldown: 3,
-  aliases: ["çal","p"],
+  aliases: ["play","p"],
   description: "Şarkı Dinlemek İçin YouTube Veya Soundcloud Kullanın",
   async execute(message, args) {
     const { channel } = message.member.voice;
@@ -22,7 +22,7 @@ module.exports = {
       return message.channel.send({embed: {"description": `**Kullanım Şekli: ${message.client.prefix}play (Video Link), (Video İsmi), (Soundcloud Linki).**`, "color": "BLUE"}}); 
     const permissions = channel.permissionsFor(message.client.user);
     if (!permissions.has("CONNECT"))
-      return message.channel.send({embed: {"description": `**Odaya Katılmıyorum İzinim Yok Lütfen Yetkilileri Uyarın.**`, "color": "BLUE"}}); 
+      return message.channel.send({embed: {"description": `**Bulunduğun Oda Bana Ait Değil. Müzik Odası 1 Bana Ait. Bulunduğun Odada Müzik Çalamam.**`, "color": "BLUE"}}); 
     if (!permissions.has("SPEAK"))
       return message.channel.send({embed: {"description": `**Odaya Katıldım Fakat Konuşma İznim Yok Lütfen Yetkilileri Uyarın.**`, "color": "BLUE"}}); 
 

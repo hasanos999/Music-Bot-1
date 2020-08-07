@@ -55,7 +55,7 @@ client.on("message", async (message) => {
       if (now < expirationTime) {
         const timeLeft = (expirationTime - now) / 3000;
         return message.reply(
-          `please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${command.name}\` command.`
+          `${command.name} **Komudunu Tekrar Denemek İçin Lütfen** ${timeLeft.toFixed(1)} **Saniye Bekle** `
         );
       }
     }
