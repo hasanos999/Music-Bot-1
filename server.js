@@ -71,3 +71,15 @@ client.on("message", async (message) => {
     }
   }
 });
+
+const activities_list = [
+    "-yardım",// Sadece Tırnak Yani " İşareti İçinde Yazmakta Olan Mesajları Değiştirin.
+  
+    ]; 
+client.on('ready', () => {
+    setInterval(() => {
+        const index = Math.floor(Math.random() * (activities_list.length - 1) + 1); // Bu Kısımları Ellemeyin
+        client.user.setActivity(activities_list[index]); // Bu Kısımları Ellemeyin.
+    }, 10000); // Selam 1 Saniye = 1000 MiliSaniye Yapar - Kısacası Böyle Bırakırsan - 3 Saniyede 1 Değişir. 
+});
+   
